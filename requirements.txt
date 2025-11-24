@@ -1,0 +1,6 @@
+# Note: For Python 3.14, ChromaDB 0.3.x is used due to dependency compatibility
+# Newer versions require onnxruntime which doesn't have Python 3.14 wheels yet
+chromadb
+sentence-transformers
+torch
+numpy
