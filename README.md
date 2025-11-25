@@ -32,6 +32,47 @@ For GPU acceleration, ensure you have:
 - NVIDIA GPU drivers installed
 - CUDA Toolkit installed (compatible with your PyTorch version)
 
+## Development Container (CUDA GPU)
+
+You can develop inside a GPU-enabled Docker container (CUDA 12.1 + PyTorch 2.4.0) using the provided `Dockerfile` and PowerShell script `start_container.ps1`.
+
+### Build and Start Container
+
+From the repository root:
+
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File .\start_container.ps1
+```
+
+Force a no-cache rebuild:
+
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File .\start_container.ps1 -Rebuild
+```
+
+This will:
+- Build image `chromadb-gpu:latest`
+- Start container `chromadb-gpu-dev` with your workspace mounted at `/workspace`
+- Keep the container alive (tailing) for interactive development
+
+### Attach with VS Code
+1. Install the "Dev Containers" extension.
+2. Command Palette → `Dev Containers: Attach to Running Container`.
+3. Select `chromadb-gpu-dev`.
+
+### Verify GPU Inside Container
+
+```powershell
+docker exec -it chromadb-gpu-dev python -c "import torch; print(torch.cuda.is_available())"
+```
+Expected output: `True` if CUDA is available.
+
+### Optional Improvements
+- Add a `devcontainer.json` for automatic configuration (ask to generate if needed).
+- Pin exact versions of `chromadb` and `sentence-transformers` in `requirements.txt` for reproducibility.
+- Mount a local cache directory for HuggingFace models if you want persistence across rebuilds.
+
+
 ## Project Structure
 
 ```
